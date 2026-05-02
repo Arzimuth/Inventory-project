@@ -7,6 +7,8 @@ await mongoose.connect(process.env.DATABASE_URL)
 console.log("DB connected");
 
 
+
+
     }catch(err){
         console.log(err);
         
