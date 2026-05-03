@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useAuth } from "../context/Authcontext"
+import { useAuth } from "./Authcontext"
 import { useNavigate } from "react-router-dom"
 
 const Root = () => {

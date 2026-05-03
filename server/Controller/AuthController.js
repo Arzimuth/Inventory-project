@@ -6,19 +6,22 @@ const jwt = require("jsonwebtoken")
 exports.register = async (req,res)=>{
     try{
         const{name,username,password}=req.body
-        let user = await User.findOne({username})
         if(!username){
             return res.status(400).json({message:"Username is required"})
         }
         if(!password){
     return res.status(400).json({message:"Password is required"})
 }
-if(user){
-    return res.status(400).json({message:"Username already used"})
-}
+ const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      return res.status(400).json({
+        message: "Username already used",
+      });
+    }
 
 const salt = await bcrypt.genSalt(10)
-user = new User ({name,username,password})
+const user = new User ({name,username,password})
 
 user.password = await bcrypt.hash(password,salt)
 await user.save()
@@ -35,13 +38,14 @@ res.send("Register Success")
 exports.login = async (req,res)=>{
     try{
         const {username,password}= req.body
-        const user = await User.findOneAndUpdate({username})
-        if(!username){
-            return res.status(400).json({message:"Username is require"})
+       const user = await User.findOne({username})
+        if(!user){
+            return res.status(400).json({message:"Username isn't Register"})
         }
         if(!password){
             return res.status(400).json({message:"Password is require"})
-        }
+        } 
+        
         const isMatch = await bcrypt.compare(password,user.password)
 
         if(!isMatch){
