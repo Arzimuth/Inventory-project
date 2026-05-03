@@ -34,9 +34,9 @@ console.log(res);
 if(res.data.token){
   await login (res.data.user,res.data.token)
   if(res.data.user.role === "admin"){
-    navigate("/admin/dashboard")
+    navigate("/admin-dashboard")
   }else{
-    navigate("/user/dashboard")
+    navigate("/user-dashboard")
   } 
 
 }else{

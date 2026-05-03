@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import ProtectedRoute from "./context/ProtectedRoute"
 import Login from "./Component/Login"
 import './App.css'
+import Dashboard from "./Component/Dashboard"
+import Categories from "./Component/Categories"
 
 function App() {
   return (
@@ -15,14 +17,36 @@ function App() {
 
       {/* admin routes */}
       <Route
-        path="/admin/dashboard"
+        path="/admin-dashboard"
         element={
           <ProtectedRoute role={"admin"}>
-            <h1>admin dashboard</h1>
+            <Dashboard/>
            </ProtectedRoute>
         }
-      />
-
+      >
+<Route
+index
+element={<h1>Sumary of dashboard</h1>}
+/>
+<Route path="categories"
+element={<Categories/>}
+/>
+<Route path="products"
+element={<h1>Product</h1>}
+/>
+<Route path="suppliers"
+element={<h1>Supliers</h1>}
+/>
+<Route path="orders"
+element={<h1>Orders</h1>}
+/>
+<Route path="users"
+element={<h1>Users</h1>}
+/>
+<Route path="profile"
+element={<h1>Profile</h1>}
+/>
+</Route>
       {/* user routes */}
       <Route
         path="/user/dashboard"
