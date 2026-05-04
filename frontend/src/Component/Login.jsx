@@ -60,7 +60,7 @@ if(res.data.token){
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-600 via-white-500 to-slate-800">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <div className="backdrop-blur-lg bg-white/20 border border-white/30 rounded-2xl p-8 w-full max-w-2xl text-white">
         <h1 className="text-3xl font-bold text-center mb-6 text-white tracking-wide font-mono">Welcome Back</h1>
 {
@@ -110,7 +110,7 @@ if(res.data.token){
               Password
             </label>
 </div>
-<button className="w-full py-3 rounded-lg bg-white text font-mono text-slate-800 font-bold hover:bg-slate-500 hover:text-white active:scale-95 transition duration-200 shadow-lg" type="submit">
+<button className="w-full py-3 rounded-lg bg-white text-xl font-mono text-slate-800 font-bold hover:bg-slate-500 hover:text-white active:scale-95 hover:scale-105 hover:shadow-lg hover:shadow-slate-500/40 transition duration-200 shadow-lg" type="submit">
   
 {
   loading ? "Loading...": "Login"

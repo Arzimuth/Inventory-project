@@ -116,10 +116,10 @@ catch(err){
 
 if(loading) return <div>Loading...</div>
   return (
-    <div className="p-6 md:ml-16 bg-gray-100 min-h-screen">
+    <div className="p-6 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
 
       {/* Title */}
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">
+      <h1 className="text-3xl font-bold text-gray-100 mb-6">
         Category Management
       </h1>
 
@@ -171,8 +171,8 @@ if(loading) return <div>Loading...</div>
             {/* Button */}
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded-lg 
-              hover:bg-blue-600 active:scale-95 transition duration-200 font-medium"
+              className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-lg 
+              hover:bg-blue-600 active:scale-95 transition duration-200 font-medium hover:scale-105 hover:shadow-lg hover:shadow-blue-500/40 "
             >
               {editCategory ? "Save Category": "Add Category"}
             </button>
@@ -180,8 +180,8 @@ if(loading) return <div>Loading...</div>
     editCategory && (
         <button
               type="submit"
-              className="w-full bg-red-500 text-white py-2 rounded-lg 
-              hover:bg-red-600 active:scale-95 transition duration-200 font-medium"
+              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:scale-105 hover:shadow-lg hover:shadow-red-500/40  text-white py-2 rounded-lg 
+              active:scale-95 transition duration-200 font-medium"
              onClick={handleCancel}
             >
               Cancel
@@ -241,13 +241,13 @@ if(loading) return <div>Loading...</div>
 
               <button
               onClick={()=>handleEdit(item)}
-               className="px-3 py-1 text-xs rounded-lg bg-yellow-400 text-white hover:bg-yellow-500 transition">
+               className="px-3 py-1 text-xs rounded-lg bg-gradient-to-r from-yellow-300 to-yellow-400 text-white hover:scale-105 hover:shadow-lg hover:shadow-yellow-500/40 transition">
                 Edit
               </button>
 
               <button 
               onClick={()=>handleDelete(item._id)}
-              className="px-3 py-1 text-xs rounded-lg bg-red-500 text-white hover:bg-red-600 transition">
+              className="px-3 py-1 text-xs rounded-lg bg-gradient-to-r from-red-600 to-red-700 text-white hover:scale-105 hover:shadow-lg hover:shadow-red-500/40 transition">
                 Delete
               </button>
 

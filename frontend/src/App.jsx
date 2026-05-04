@@ -4,6 +4,7 @@ import Login from "./Component/Login"
 import './App.css'
 import Dashboard from "./Component/Dashboard"
 import Categories from "./Component/Categories"
+import Suppliers from "./Component/Suppliers"
 
 function App() {
   return (
@@ -35,7 +36,7 @@ element={<Categories/>}
 element={<h1>Product</h1>}
 />
 <Route path="suppliers"
-element={<h1>Supliers</h1>}
+element={<Suppliers/>}
 />
 <Route path="orders"
 element={<h1>Orders</h1>}
