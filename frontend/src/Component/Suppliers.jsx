@@ -14,6 +14,8 @@ const [formData,setFormData]=useState ({
 const [loading,setLoading] =useState(true)
 const [suppliers,setSuppliers] =useState([])
 const [editSupplier,setEditSupplier] =useState(null)
+const [filteredSuppliers,setFilteredSuppliers] =useState([])
+const [searchTerm,setSearchTerm] =useState("")
  
 
 
@@ -31,6 +33,7 @@ const LoadSupplier = async () => {
     const res = await getSupplier()
    
     setSuppliers(res.data.supplier)
+    setFilteredSuppliers(res.data.supplier)
   } catch (err) {
     console.log(err)
   } finally {
@@ -135,6 +138,16 @@ catch(err){
 
 }
 
+const handleSearch = (e)=>{
+const value = e.target.value
+  setSearchTerm(value)
+  const filtered = suppliers.filter((item) =>
+    item.name.toLowerCase().includes(value.toLowerCase()) ||
+    item.email.toLowerCase().includes(value.toLowerCase()))
+    setFilteredSuppliers(filtered)
+}
+
+
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-6">
@@ -142,7 +155,10 @@ catch(err){
         <h1 className="text-3xl font-bold mb-6 tracking-wide">Supplier Management</h1>
         
         <div className="flex justify-between items-center mb-6">
-            <input type="text" placeholder="Search supplier" className="bg-gray-500 backdrop-blur-md border border-gray-700 px-4 py-2 rounded-xl w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"/>
+            <input
+            
+            onChange={handleSearch}
+            type="text" placeholder="Search supplier" className="bg-gray-500 backdrop-blur-md border border-gray-700 px-4 py-2 rounded-xl w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"/>
             <button
             onClick={()=>setAddEditModal(true)}
              className="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/30 transition-all">
@@ -168,7 +184,7 @@ catch(err){
           </tr>
         </thead>
         <tbody className="text-gray-700">
-          {suppliers.map((item, index) => (
+          {filteredSuppliers.map((item, index) => (
             <tr
               key={item._id}
               className={`border-b hover:bg-gray-100 transition duration-200 ${
