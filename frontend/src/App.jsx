@@ -5,6 +5,8 @@ import './App.css'
 import Dashboard from "./Component/Dashboard"
 import Categories from "./Component/Categories"
 import Suppliers from "./Component/Suppliers"
+import Products from "./Component/Products"
+import Logout from "./Component/Logout"
 
 function App() {
   return (
@@ -33,7 +35,7 @@ element={<h1>Sumary of dashboard</h1>}
 element={<Categories/>}
 />
 <Route path="products"
-element={<h1>Product</h1>}
+element={<Products/>}
 />
 <Route path="suppliers"
 element={<Suppliers/>}
@@ -47,6 +49,11 @@ element={<h1>Users</h1>}
 <Route path="profile"
 element={<h1>Profile</h1>}
 />
+
+<Route path="logout"
+element={<Logout/>}
+/>
+
 </Route>
       {/* user routes */}
       <Route

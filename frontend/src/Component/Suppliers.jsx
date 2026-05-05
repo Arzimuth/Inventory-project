@@ -89,7 +89,7 @@ setEditSupplier(null)
 }
 
 const handleEdit = async(supplier)=>{
-  setEditSupplier(supplier._id)
+  setEditSupplier(true)
 setAddEditModal(true)
 setFormData({
          name:supplier.name || "",
@@ -158,7 +158,7 @@ const value = e.target.value
             <input
             
             onChange={handleSearch}
-            type="text" placeholder="Search supplier" className="bg-gray-500 backdrop-blur-md border border-gray-700 px-4 py-2 rounded-xl w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"/>
+            type="text" placeholder="Search Supplier" className="bg-gray-500 backdrop-blur-md border border-gray-700 px-4 py-2 rounded-xl w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"/>
             <button
             onClick={()=>setAddEditModal(true)}
              className="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/30 transition-all">
@@ -216,6 +216,7 @@ const value = e.target.value
           ))}
         </tbody>
       </table>
+        {filteredSuppliers.length ===0 && <div>Not Found</div>}
     </div>
   )
 }
