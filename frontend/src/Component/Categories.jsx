@@ -172,7 +172,7 @@ if(loading) return <div>Loading...</div>
             <button
               type="submit"
               className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-lg 
-              hover:bg-blue-600 active:scale-95 transition duration-200 font-medium hover:scale-105 hover:shadow-lg hover:shadow-blue-500/40 "
+              hover:bg-blue-600 active:scale-95 transition duration-200 font-medium hover:scale-103 hover:shadow-lg hover:shadow-blue-500/40 "
             >
               {editCategory ? "Save Category": "Add Category"}
             </button>
@@ -237,7 +237,7 @@ if(loading) return <div>Loading...</div>
             </td>
 
             {/* Actions */}
-            <td className="px-4 py-3 text-center space-x-2">
+            <td className="px-4 py-3 text-center space-x-2 ">
 
               <button
               onClick={()=>handleEdit(item)}
