@@ -1,3 +1,5 @@
+
+const Product = require("../models/Product")
 const Supplier = require("../models/Supplier")
 
 exports.addSupplier = async(req,res)=>{
@@ -90,6 +92,15 @@ exports.deleteSupplier = async(req,res)=>{
     try{
         const {id}=req.params
         const supplier = await Supplier.findByIdAndDelete({_id:id})
+
+          const productCount = await Product.countDocuments({ supplierId: id })
+        
+            if (productCount > 0) {
+              return res.status(400).json({
+                success: false,
+                message: "Cannot delete Supplier because it has products"
+              })
+            }
         
 return res.status(201).json({success:true,message:"Supplier deleted successfully"})
 

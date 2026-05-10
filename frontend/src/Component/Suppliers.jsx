@@ -131,9 +131,12 @@ if(confirmDelete){
 
 }
 catch(err){
-    console.log(err);
-    const msg = err.response?.data?.message || "Delete failed"
+       if(err.response){
+      alert(err.response.data.message)
+    }else{
+      const msg = err.response?.data?.message || "Delete failed"
     alert(msg)
+}
 }
 
 }

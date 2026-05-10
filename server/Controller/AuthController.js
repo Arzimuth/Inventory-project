@@ -60,3 +60,125 @@ exports.login = async (req,res)=>{
         
     }
 }
+
+
+exports.getUsers =async(req,res)=>{
+    try{
+const user = await User.find()
+return res.status(200).json({success:true ,user})
+
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({success:false,message:"Server error in get Users"})
+    }
+
+}
+
+
+exports.addUser = async(req,res)=>{
+   try{
+
+const {  name,username,password,address,role,} = req.body
+
+if(!name || !username || !password || !role){
+    return res.status(400).json({
+        success :false,
+        message:"All fields are required"
+    })
+}
+
+const existingUser = await User.findOne({username})
+
+
+if(existingUser){
+    return res.status(400).json({success: false, message:"User already exists"})
+}
+
+ const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+const newUser = new User({
+   name,username,
+   password : hashedPassword
+   ,address,role,
+})
+
+await newUser.save()
+
+return res.status(201).json({success:true,message:"User added successfully"})
+
+
+}catch(error){
+    console.log(error);
+    return res.status(500).json({success:false,message:"Server error"})
+} 
+}
+
+
+
+exports.deleteUser = async(req,res)=>{
+     try{
+         const {id}=req.params
+         const user = await User.findByIdAndDelete({_id:id})
+         
+ return res.status(201).json({success:true,message:"User deleted successfully"})
+ 
+     }catch(err){
+ console.log(err);
+         return res.status(500).json({success:false,message:"Server error in delete User"})
+     }
+}
+
+
+
+exports.getUserProfile =async(req,res)=>{
+    try{
+        const userId = req.user._id
+
+const user = await User.findById(userId).select('-password')
+
+if(!user){
+    return res.status(404).json({success:true,user})
+}
+
+return res.status(200).json({success:true ,user})
+
+
+
+
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({success:false,message:"Server error in get UsersProfile"})
+    }
+
+}
+
+
+exports.updateProfile =async(req,res)=>{
+    try{
+const userId = req.user._id
+const {name,username,password} =req.body
+
+const updateData = {name,username}
+
+if(password && password.trim() !== ''){
+    const hashedPassword = await bcrypt.hash(password,10)
+    updateData.password = hashedPassword
+}
+
+const user = await User.findByIdAndUpdate(userId,updateData,{new:true}).select("-password")
+if(!user){
+    return res.status(404).json({success:false})
+}
+
+
+
+
+return res.status(200).json({success:true ,message:"Profile updated Sucessfully",user})
+
+
+    }catch(err){
+         console.log(err);
+        return res.status(500).json({success:false,message:"Server error in update UsersProfile"})
+    }
+}

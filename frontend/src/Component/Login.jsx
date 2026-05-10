@@ -36,7 +36,7 @@ if(res.data.token){
   if(res.data.user.role === "admin"){
     navigate("/admin-dashboard")
   }else{
-    navigate("/user-dashboard")
+    navigate("/user-dashboard/products")
   } 
 
 }else{

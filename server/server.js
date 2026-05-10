@@ -12,6 +12,8 @@ const auth =require("./Routes/Auth")
 const category = require("./Routes/Category")
 const supplier =require("./Routes/Supplier")
 const product = require("./Routes/Product")
+const order = require("./Routes/Order")
+const dashBoard = require("./Routes/Dashboard")
 
 app.use(morgan('dev'))
 app.use(cors())
@@ -21,6 +23,8 @@ app.use('/api',auth)
 app.use("/api/category",category)
 app.use("/api/supplier",supplier)
 app.use("/api/product",product)
+app.use("/api/order",order)
+app.use("/api/dashboard",dashBoard)
 
 
 app.listen(process.env.PORT,()=>{

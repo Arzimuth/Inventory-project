@@ -7,6 +7,12 @@ import Categories from "./Component/Categories"
 import Suppliers from "./Component/Suppliers"
 import Products from "./Component/Products"
 import Logout from "./Component/Logout"
+import Users from "./Component/Users"
+import Sidebar from "./Component/Sidebar"
+import UserProduct from "./Component/UserProduct"
+import Order from "./Component/Order"
+import Profile from "./Component/Profile"
+import Summary from "./Component/Summary"
 
 function App() {
   return (
@@ -29,8 +35,9 @@ function App() {
       >
 <Route
 index
-element={<h1>Sumary of dashboard</h1>}
+element={<Summary/>}
 />
+
 <Route path="categories"
 element={<Categories/>}
 />
@@ -41,10 +48,10 @@ element={<Products/>}
 element={<Suppliers/>}
 />
 <Route path="orders"
-element={<h1>Orders</h1>}
+element={<Order/>}
 />
 <Route path="users"
-element={<h1>Users</h1>}
+element={<Users/>}
 />
 <Route path="profile"
 element={<h1>Profile</h1>}
@@ -57,13 +64,24 @@ element={<Logout/>}
 </Route>
       {/* user routes */}
       <Route
-        path="/user/dashboard"
+        path="/user-dashboard/"
         element={
           <ProtectedRoute role={"user"}>
-            <h1>user dashboard</h1>
+            <Dashboard/>
          </ProtectedRoute>
         }
-      />
+      >
+        <Route path="orders" element={<Order/>}/>
+        <Route path="logout" element={<Logout/>}/>
+        <Route path="profile" element={<Profile/>}/>
+
+
+
+
+       <Route path="products"
+element={<UserProduct/>}
+/>
+      </Route>
 
       {/* fallback */}
       <Route path="*" element={<h1>404 Not Found</h1>} />

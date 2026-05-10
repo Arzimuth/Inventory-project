@@ -1,31 +1,35 @@
-import { useEffect, useState } from "react";
-import { AddCategory, deleteCategory, getCategory, UpdateCategory } from "../Functions/Categories";
 
-const Categories = () => {
- const [value,setValue]=useState({
-    categoryName: "",
-    categoryDescription:""
+import { useEffect, useState } from "react";
+import { AddUser, deleteUser, getUser } from "../Functions/Auth";
+
+const Users = () => {
+const [formData,setFormData]=useState({
+    name:"",
+    username:"",
+    password : "",
+    address:"",
+    role: "",
   })
 
-  const [categories,setCategories]=useState([])
+  const [users,setUsers]=useState([])
   const [loading,setLoading]=useState(true)
-  const [editCategory,setEditCategory]=useState(null)
+//   const [editCategory,setEditCategory]=useState(null)
 
 
 
 
   useEffect(()=>{
-    LoadCategory()
+    LoadUsers()
     
   },[])
 
-const LoadCategory = async()=>{
+const LoadUsers = async()=>{
     setLoading(true)
     try{
-        const res= await getCategory()
+        const res= await getUser()
 
-        console.log(res.data.category);
-        setCategories(res.data.category)
+        console.log(res.data);
+        setUsers(res.data.user)
         setLoading(false)
     }catch(err){
         console.log(err);
@@ -37,68 +41,55 @@ const LoadCategory = async()=>{
 
 
 const handleChange =(e)=>{
-    setValue({...value,[e.target.name]:e.target.value})
+    setFormData({...formData,[e.target.name]:e.target.value})
 }
 
 const handleSubmit =async(e)=>{
     e.preventDefault()
     try{
-let res
-if(editCategory){
- res = await UpdateCategory(editCategory, value)
-      alert("Category updated successfully")
-}else{
-    res = await AddCategory(value)
-    alert("Category added successfully")
-}
+let res = await AddUser(formData)
+//     alert("User added successfully")
+// if(editCategory){
+//  res = await UpdateCategory(editCategory, value)
+//       alert("Category updated successfully")
+// }else{
+//     res = await AddUser(formData)
+    alert("User added successfully")
+// }
 
-LoadCategory()
+LoadUsers()
 
-    setValue({
-      categoryName: "",
-      categoryDescription: ""
+    setFormData({
+        name:"",
+    username:"",
+    password : "",
+    address:"",
+    role: "",
     })
 
-    setEditCategory(null)
         
          
     }catch(error){
         console.log("ERROR:", error)
 
-    const msg = error.response?.data?.message || "Error adding category"
+    const msg = error.response?.data?.message || "Error adding User"
     alert(msg)
     }
 }
 
-const handleEdit = async(category)=>{
-setEditCategory(category._id)
-setValue({
-     categoryName: category.categoryName || "",
-    categoryDescription:category.categoryDescription || "",
-})
-}
 
-const handleCancel = async()=>{
-    setEditCategory(null)
-    setValue(
-        {
-    categoryName: "",
-    categoryDescription:""
-  }
-    )
-}
 
 const handleDelete = async(id)=>{
 
 try{
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this category?"
+      "Are you sure you want to delete this User ?"
     )
 if(confirmDelete){
 
-    const res = await deleteCategory(id)
-    LoadCategory()
-    alert("delete category completed !!!")
+    const res = await deleteUser(id)
+    LoadUsers()
+    alert("delete user completed !!!")
 }else{
     alert(res.data.message || "Delete failed")
 }
@@ -106,14 +97,9 @@ if(confirmDelete){
 }
 catch(err){
     console.log(err);
-    if(err.response){
-      alert(err.response.data.message)
-    }else{
-      const msg = err.response?.data?.message || "Delete failed"
+    const msg = err.response?.data?.message || "Delete failed"
     alert(msg)
 }
-    }
-    
 
 }
 
@@ -121,11 +107,12 @@ catch(err){
 
 if(loading) return <div>Loading...</div>
   return (
+   
     <div className="p-6 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
 
       {/* Title */}
       <h1 className="text-3xl font-bold text-gray-100 mb-6">
-        Category Management
+        Users Management
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -134,7 +121,7 @@ if(loading) return <div>Loading...</div>
         <div className="bg-white rounded-2xl shadow-md p-6">
 
           <h2 className="text-lg font-semibold text-gray-700 mb-4">
-            {editCategory ? "Edit Category":"Add Category"}
+            Add User
           </h2>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
@@ -142,13 +129,13 @@ if(loading) return <div>Loading...</div>
             {/* Name */}
             <div>
               <label className="block text-sm text-gray-600 mb-1">
-                Category Name
+                User's Name
               </label>
               <input
                 type="text"
-                name="categoryName"
-                value={value.categoryName || ""}
-                placeholder="Enter category name"
+                name="name"
+                value={formData.name || ""}
+                placeholder="Enter User name"
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
@@ -159,19 +146,65 @@ if(loading) return <div>Loading...</div>
             {/* Description */}
             <div>
               <label className="block text-sm text-gray-600 mb-1">
-                Category Description
+                Username
               </label>
               <input
                 type="text"
-                name="categoryDescription"
-                placeholder="Enter description"
-                value={value.categoryDescription || ""}
+                name="username"
+                placeholder="Enter Username"
+                value={formData.username || ""}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
                 transition"
               />
             </div>
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                value={formData.password || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg 
+                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                transition"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">
+                Address
+              </label>
+              <input
+                type="text"
+                name="address"
+                placeholder="Enter Address"
+                value={formData.address|| ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg 
+                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                transition"
+              />
+            </div>
+             <div className="flex flex-col gap-2">
+                <label className="block text-sm text-gray-600 mb-1">
+               Role
+              </label>
+    <select
+      name="role"
+      className="text-gray-500  border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+   onChange={handleChange}
+    value={formData.role}
+   >
+      <option value="">Select Role</option>
+      <option value="admin">Admin</option>
+      <option value="user">User</option>
+
+    </select>
+  </div>
 
             {/* Button */}
             <button
@@ -179,20 +212,9 @@ if(loading) return <div>Loading...</div>
               className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-lg 
               hover:bg-blue-600 active:scale-95 transition duration-200 font-medium hover:scale-103 hover:shadow-lg hover:shadow-blue-500/40 "
             >
-              {editCategory ? "Save Category": "Add Category"}
+            Add User
             </button>
-{
-    editCategory && (
-        <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:scale-105 hover:shadow-lg hover:shadow-red-500/40  text-white py-2 rounded-lg 
-              active:scale-95 transition duration-200 font-medium"
-             onClick={handleCancel}
-            >
-              Cancel
-            </button>
-    )
-}
+
           </form>
         </div>
 
@@ -201,7 +223,7 @@ if(loading) return <div>Loading...</div>
           
           
             <h2 className="text-lg font-semibold text-gray-700 mb-4">
-    Category List
+    User List
   </h2>
             
            
@@ -212,16 +234,18 @@ if(loading) return <div>Loading...</div>
     <thead className="text-xs uppercase bg-gray-100 text-gray-700">
       <tr>
         <th className="px-4 py-3">No.</th>
-        <th className="px-4 py-3">Category Name</th>
-        <th className="px-4 py-3">Description</th>
-        <th className="px-4 py-3 text-center">Actions</th>
+        <th className="px-4 py-3">Name</th>
+        <th className="px-4 py-3">UserName</th>
+        <th className="px-4 py-3">Address</th>
+        <th className="px-4 py-3">Role</th>
+        <th className="px-4 py-3 text-center">Action</th>
       </tr>
     </thead>
 
     {/* Body */}
     <tbody>
-      {categories.length > 0 ? (
-        categories.map((item, index) => (
+      {users.length > 0 ? (
+       users.map((item, index) => (
           <tr
             key={item._id || index}
             className="border-b hover:bg-gray-50 transition"
@@ -231,24 +255,31 @@ if(loading) return <div>Loading...</div>
               {index + 1}
             </td>
 
-            {/* Name */}
+           
             <td className="px-4 py-3 font-semibold text-gray-800">
-              {item.categoryName}
+              {item.name}
             </td>
 
-            {/* Description */}
             <td className="px-4 py-3">
-              {item.categoryDescription}
+              {item.username}
+            </td>
+
+            <td className="px-4 py-3">
+              {item.address}
+            </td>
+
+            <td className="px-4 py-3">
+              {item.role}
             </td>
 
             {/* Actions */}
             <td className="px-4 py-3 text-center space-x-2 ">
 
-              <button
+              {/* <button
               onClick={()=>handleEdit(item)}
                className="px-3 py-1 text-xs rounded-lg bg-gradient-to-r from-yellow-300 to-yellow-400 text-white hover:scale-105 hover:shadow-lg hover:shadow-yellow-500/40 transition">
                 Edit
-              </button>
+              </button> */}
 
               <button 
               onClick={()=>handleDelete(item._id)}
@@ -276,4 +307,4 @@ if(loading) return <div>Loading...</div>
   );
 };
 
-export default Categories;
+export default Users
